@@ -60,6 +60,9 @@ enableContributionAjaxForm(<?php echo js_escape(url($contributionPath.'/type-for
                     <div id="captcha" class="inputs"><?php echo $captchaScript; ?></div>
                 <?php endif; ?>
                 <div class="inputs">
+                    <?php echo $this->formCheckbox('contribution-public', "1", array('hidden' => true), array(1,0)); ?>
+                </div>
+                <div class="inputs">
                     <?php $anonymous = isset($_POST['contribution-anonymous']) ? $_POST['contribution-anonymous'] : 0; ?>
                     <?php echo $this->formCheckbox('contribution-anonymous', $anonymous, array('hidden' => true), array(1, 0)); ?>
                     <p><label for="terms-agree"><?php echo __("In order to contribute, you must read and agree to the %s",  "<a href='" . contribution_contribute_url('terms') . "' target='_blank'>" . __('Terms and Conditions') . ".</a>"); ?></label></p>
