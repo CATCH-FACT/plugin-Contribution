@@ -2,7 +2,7 @@
 <?php if (!$type): ?>
 <p><?php echo __('You must choose a contribution type to continue.'); ?></p>
 <?php else: ?>
-<h2><?php echo __('Contribute a %s', $type->display_name); ?></h2>
+<h2><?php echo __("Contribute") . ": " . $type->display_name; ?></h2>
 
 <?php
 if ($type->isFileRequired()):
@@ -18,7 +18,9 @@ if ($type->isFileRequired()):
 
 <?php
 foreach ($type->getTypeElements() as $contributionTypeElement) {
-    echo $this->elementForm($contributionTypeElement->Element, $item, array('contributionTypeElement'=>$contributionTypeElement));
+    $options = array('contributionTypeElement'=>$contributionTypeElement);
+    echo $this->elementForm($contributionTypeElement->Element, $item, $options);
+//    echo $this->elementForm($contributionTypeElement->Element, $item, array('contributionTypeElement'=>$contributionTypeElement));
 }
 ?>
 

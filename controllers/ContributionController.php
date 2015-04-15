@@ -250,18 +250,18 @@ class Contribution_ContributionController extends Omeka_Controller_AbstractActio
                 $item->save();
                 $item = update_item($item, $itemMetadata, array(), $fileMetadata);
             } catch(Omeka_Validator_Exception $e) {
-                $this->flashValidatonErrors($e);
+                $this->flashValidatonErrors("Validation error: " . $e);
                 return false;
             } catch (Omeka_File_Ingest_InvalidException $e) {
                 // Copying this cruddy hack
                 if (strstr($e->getMessage(), "'contributed_file'")) {
                    $this->_helper->flashMessenger("You must upload a file when making a {$contributionType->display_name} contribution.", 'error');
                 } else {
-                    $this->_helper->flashMessenger($e->getMessage());
+                    $this->_helper->flashMessenger("An exception occurred: " . $e->getMessage());
                 }
                 return false;
             } catch (Exception $e) {
-                $this->_helper->flashMessenger($e->getMessage());
+                $this->_helper->flashMessenger("An exception occurred: " . $e->getMessage());
                 return false;
             }
             $this->_addElementTextsToItem($item, $post['Elements']);

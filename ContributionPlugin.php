@@ -80,10 +80,10 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
             $elementsTable = $this->_db->getTable('Element');
             $select = $elementsTable->getSelect();
 
-            $select->join(array('contribution_type_elements' => $this->_db->ContributionTypeElement),
-                    'element_id = elements.id', array());
+            $select->join(array('contribution_type_elements' => $this->_db->ContributionTypeElement), 'element_id = elements.id', array());
             $elements = $elementsTable->fetchObjects($select);
             foreach ($elements as $element) {
+                _log("adding elementForm filters in contribution plugin setup");
                 add_filter(array('ElementForm', 'Item', $element->set_name, $element->name ), array($this, 'elementFormFilter'), 2);
                 add_filter(array('ElementInput', 'Item', $element->set_name, $element->name ), array($this, 'elementInputFilter'), 2);
             }
@@ -137,7 +137,7 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
             ) ENGINE=MyISAM;";
         $this->_db->query($sql);
 
-        $this->_createDefaultContributionTypes();
+//        $this->_createDefaultContributionTypes();
         set_option('contribution_email_recipients', get_option('administrator_email'));
     }
 
@@ -682,6 +682,8 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
         $contributionElement = $this->_db->getTable('ContributionTypeElement')->findByElementAndType($element, $type);
         $prompt = $contributionElement->prompt;
         $components['label'] = $prompt;
+        $components['description'] = null;
+        $components['comment'] = null;
         $components['add_input'] = null;
         return $components;
     }
